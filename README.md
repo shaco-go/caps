@@ -64,7 +64,6 @@ Wails 前端 (JS)  ──绑定方法──▶  App (Go)  ──tray/窗口─�
 │       ├── main.js         # 界面渲染、事件绑定、录制逻辑
 │       ├── keymap.js       # 浏览器按键 → AHK 键名映射
 │       └── style.css       # 深色主题样式
-├── tools/genicons/         # 图标生成工具（assets/ 为托盘子源图）
 └── build/                  # 打包资源（图标、安装器、平台配置）
 ```
 
@@ -113,23 +112,15 @@ go test ./...
 | `%AppData%\CapsLayer\runtime.ahk` | 生成的改键脚本 |
 | `%AppData%\CapsLayer\systray.log` | 托盘错误日志 |
 
-## 生成图标（可选）
+## 图标
 
-图标源图位于 `tools/genicons/assets/tray-on.png`（开启态）与 `tray-off.png`（暂停态）。
-替换源图后，在模块根目录执行：
+图标为静态资源，需直接替换以下文件：
 
-```bash
-go run ./tools/genicons
-```
-
-该命令会自动抠除源图的近白背景、缩放到多档尺寸，并重新生成：
-
-| 输出 | 来源 |
+| 文件 | 用途 |
 | --- | --- |
-| `internal/icon/tray-on.ico`、`tray-off.ico` | 对应的托盘源图 |
-| `build/windows/icon.ico`、`build/appicon.png` | `tray-on.png`（开启态） |
-
-> 源图为 100×100，生成 256px 应用图标时会做 Catmull-Rom 放大；若替换为更高分辨率的源图，图标会更清晰。
+| `internal/icon/tray-on.ico`、`tray-off.ico` | 托盘图标（运行中 / 暂停） |
+| `build/windows/icon.ico` | exe / 窗口 / 任务栏 / 安装器图标 |
+| `build/appicon.png` | `icon.ico` 缺失时的回退，及 macOS 图标来源 |
 
 ## 许可证
 
